@@ -519,6 +519,8 @@ function WebSqlPouch(opts, callback) {
           // before version 2, this column didn't even exist
           onGetVersion(tx, 1);
         });
+      } else if(!result.rows.item(0)?.db_version){
+        onGetVersion(tx, 0);
       } else { // column exists, we can safely get it
         tx.executeSql('SELECT db_version FROM ' + META_STORE,
           [], function (tx, result) {
